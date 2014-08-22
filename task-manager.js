@@ -44,14 +44,6 @@ app.controller('TaskCtrl', function($scope) {
 		}
 	};
 
-	$scope.openSettings = function () {
-		console.log('ha');
-	}
-
-	$scope.changeColName = function (index) {
-		console.log(index);
-	}
-
 	$scope.changeTask = function (key_col, key_task,  new_text, new_text_col) {
 		if(new_text_col) {
 			$scope.cols[key_col].tasks.splice(key_task, 1);
@@ -62,9 +54,6 @@ app.controller('TaskCtrl', function($scope) {
 
 app.directive('draggable', function() {
 	return {
-		// A = attribute, E = Element, C = Class and M = HTML Comment
-		restrict:'A',
-		//The link function is responsible for registering DOM listeners as well as updating the DOM.
 		link: function(scope, element, attrs) {
 			element.draggable({
 				revert:true
