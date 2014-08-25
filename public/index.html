@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<head>
+	<title>Task manager</title>
+	<!--<script type="text/javascript" src='js/jquery-2.1.1.min.js'></script>
+	<script type="text/javascript" src='js/jquery-ui-1.10.4.custom.min.js'></script>
+	<script type="text/javascript" src='js/jquery.easing.min.js'></script>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.6/angular.min.js"></script>-->
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.0.1/angular.min.js"></script>
+
+  <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap.min.css" rel="stylesheet">
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="task-manager.js"></script>
+
+	<link rel='stylesheet' href='bootstrap/css/bootstrap.min.css'>
+	<link rel='stylesheet' href='style.css'>
+</head>
+<body ng-app='taskManager'>
+<h2>Task manager</h2>
+<div ng-controller='TaskCtrl'>
+	<form name='addTaskForm' ng-submit="addTask(addTaskForm)" >
+		<input type='text' ng-model='newTask' size='30' required placeholder='write new task'>
+		<input class='btn-primary' type='submit' value='add'>
+	</form>
+	<div class='column' ng-repeat='(keyCol, col) in cols' colnum={{keyCol}} droppable>
+		<h3 ng-dblclick='col.changing=true;' ng-show='!col.changing'>{{col.name}}</h3>
+
+		<form ng-show='col.changing' class='column_name' ng-submit="changeCol(col, colName);">
+			<input type='text' ng-model='colName' size='20' required ng-init="colName=col.name">
+			<input type='submit' value='change'>
+		</form>
+
+		<div class='task' ng-repeat='(keyTask, task) in col.tasks' draggable>
+			<div class='task_interface' colnum={{keyCol}} tasknum={{keyTask}} ng-show='!task.changing' >
+
+				<div class='task_text'>{{task.text}}</div>
+				<span class='glyphicon glyphicon-remove' ng-click='removeTask(task)'></span>
+				<span class='glyphicon glyphicon-cog' ng-click='task.changing = true;'></span>
+			</div>
+
+			<form class='task_edit' ng-show='task.changing' ng-submit='changeTask(task, keyCol, keyTask, taskText, taskCol.id);'>
+				<input type='text' class='task_edit_text' ng-model='taskText' required ng-init='taskText=task.text'>
+				<select ng-model='taskCol' ng-options="col.name for col in cols" >
+					<option value=''>Choose column</option>
+				</select>
+				<br>
+				<input class='btn-primary' type='submit' value='change'>
+			</form>
+		</div>
+		
+	</div>
+	
+</div>
+</body>
+</html>
